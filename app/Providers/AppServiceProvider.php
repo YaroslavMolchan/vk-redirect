@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use NotificationChannels\Telegram\Telegram;
+use NotificationChannels\Telegram\TelegramChannel;
+use GuzzleHttp\Client as HttpClient;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,6 +16,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->when(TelegramChannel::class)
+            ->needs(Telegram::class)
+            ->give(function () {
+                return new Telegram(
+                    env('TELEGRAM_BOT_API'),
+                    new HttpClient()
+                );
+            });
     }
 }

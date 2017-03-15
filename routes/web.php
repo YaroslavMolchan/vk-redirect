@@ -11,6 +11,16 @@
 |
 */
 
+use VK\VK;
+
 $app->get('/', function () use ($app) {
-    return $app->version();
+    $results = app('db')->select("SELECT * FROM users");
+//    return $results;
+    $vk = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
+    return $vk->api('messages.get', [
+        'out' => 0,
+        'count' => 5,
+        'filters' => 0,
+        'v' => 5.62
+    ]);
 });
