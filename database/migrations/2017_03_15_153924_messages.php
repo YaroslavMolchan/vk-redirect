@@ -15,7 +15,6 @@ class Messages extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('last_message_id');
             $table->boolean('delivered')->default(false);
             $table->timestamp('delivered_at');
             $table->timestamps();
