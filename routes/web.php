@@ -10,31 +10,20 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-
+use App\Helpers;
 $app->get('/', function () use ($app) {
-
-    //init vk, telegram
-    $vk = new \App\Helpers\VkHelper();
-    $bot = new \App\Helpers\TelegramHelper();
-    $redirect = new \App\Helpers\MessagesRedirect($vk, $bot);
-
-    return $redirect->process();
-//        $users = app('db')->select("SELECT * FROM `messages` ORDER BY id DESC");
-
-//	$bot->sendAudio(env('TELEGRAM_CHAT_ID'),
-//        'https://cs7-3v4.vk-cdn.net/p15/59dbc55b5ae05a.mp3?extra=Dmu7kWVL1m1gXrVhHIAbaorbFVgRBeH6olTirl0G7BIvdYVGEwWhrA8kt7DUjdhtgIsqkCUfpxuLXrPy2dTBSDhM32L50WkGwmvBMrJkqhRc1pWetGmBEco619EZ0btA92KvszvJbGE',
-//        '530',
-//    '♡ Armin van Buuren',
-//        'Mirage (2010)'
-//    );
-//    $bot->sendDocument(env('TELEGRAM_CHAT_ID'),
 //
-//        );
-//    dd(1);
+//    $text = 123;
+//    $url = 123;
+//    $buttons[] = compact('text', 'url');
+//
+//    $replyMarkup['inline_keyboard'] = array_chunk($buttons, 2);
+//    dd(json_encode($replyMarkup));
+//{"inline_keyboard":[[{"text":123,"url":123}]]}
+//{"inline_keyboard":[[{"text":123,"url":"http:\/\/google.com"}]]}
+    $receiver = new Helpers\VkHelper(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
+    $sender = new Helpers\TelegramHelper(env('TELEGRAM_BOT_API'), env('TELEGRAM_CHAT_ID'));
+    $redirect = new Helpers\MessagesRedirect($receiver, $sender);
 
-
-    if ($unread->count() > 0) {
-
-		return;
-    }
+    echo $redirect->process();
 });

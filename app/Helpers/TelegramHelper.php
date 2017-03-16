@@ -27,9 +27,8 @@ class TelegramHelper implements SenderInterface {
 
     public function sendAttachment(AttachmentInterface $attachment)
     {
-        $this->bot->sendMessage($this->chat_id, 'text', 'HTML', false, null,
-            (new InlineKeyboardMarkup())
-        );
+        $reply = new InlineKeyboardMarkup();
+        $this->bot->sendMessage($this->chat_id, 'text', 'HTML', false, null,$reply);
         dd(1);
         $options = array_prepend($attachment->getOptions(), $this->chat_id);
 
