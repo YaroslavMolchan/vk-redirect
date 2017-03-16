@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Contracts\ReceiverInterface;
+use App\Helpers\VkHelper;
 use Illuminate\Support\ServiceProvider;
 use NotificationChannels\Telegram\Telegram;
 use NotificationChannels\Telegram\TelegramChannel;

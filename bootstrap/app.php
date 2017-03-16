@@ -1,5 +1,8 @@
 <?php
 
+use App\Contracts\ReceiverInterface;
+use App\Helpers\VkHelper;
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 try {
