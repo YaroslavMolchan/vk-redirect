@@ -8,16 +8,20 @@ use VK\VK;
 
 class VkHelper implements ReceiverInterface {
 
-    private $vk;
+    private $receiver;
     private $items;
 
     private $params = [
         'v' => 5.62
     ];
 
-    public function __construct(int $app_id, string $api_secret, string  $token)
+    /**
+     * @author MY
+     * @param VK $receiver
+     */
+    public function __construct($receiver)
     {
-        $this->vk = new VK($app_id, $api_secret, $token);
+        $this->receiver = $receiver;
         $this->setItems();
     }
 
@@ -40,7 +44,7 @@ class VkHelper implements ReceiverInterface {
         if (!empty($messages) && isset($messages[0])) {
             $options['last_message_id'] = $messages[0]->id;
         }
-        $result = $this->vk->api('messages.get', $options);
+        $result = $this->receiver->api('messages.get', $options);
         $this->items = collect($result['response']['items'])->where('read_state', 0);
     }
 
@@ -74,7 +78,7 @@ class VkHelper implements ReceiverInterface {
             'user_ids' => $user_id,
             'fields' => 'sex'
         ]);
-        $result = $this->vk->api('users.get', $params);
+        $result = $this->receiver->api('users.get', $params);
         $user = $result['response'][0];
         $insert = array_values($user);
         app('db')->insert('insert into users (id, first_name, last_name, sex) values (?, ?, ?, ?)', $insert);

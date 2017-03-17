@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use App\Helpers;
 use Illuminate\Console\Command;
+use TelegramBot\Api\BotApi;
+use VK\VK;
 
 class CheckMessages extends Command
 {
@@ -37,8 +39,10 @@ class CheckMessages extends Command
      */
     public function handle()
     {
-        $receiver = new Helpers\VkHelper(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
-        $sender = new Helpers\TelegramHelper(env('TELEGRAM_BOT_API'), env('TELEGRAM_CHAT_ID'));
+        $sender_provider = new BotApi(env('TELEGRAM_BOT_API'));
+        $receiver_provider = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
+        $receiver = new Helpers\VkHelper($receiver_provider);
+        $sender = new Helpers\Telegram($sender_provider, env('TELEGRAM_CHAT_ID'));
         $redirect = new Helpers\MessagesRedirect($receiver, $sender);
 
         $redirect->process();

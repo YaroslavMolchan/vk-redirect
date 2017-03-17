@@ -22,7 +22,7 @@ $app->get('/', function () use ($app) {
 //{"inline_keyboard":[[{"text":123,"url":123}]]}
 //{"inline_keyboard":[[{"text":123,"url":"http:\/\/google.com"}]]}
     $receiver = new Helpers\VkHelper(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
-    $sender = new Helpers\TelegramHelper(env('TELEGRAM_BOT_API'), env('TELEGRAM_CHAT_ID'));
+    $sender = new Helpers\Telegram(env('TELEGRAM_BOT_API'), env('TELEGRAM_CHAT_ID'));
     $redirect = new Helpers\MessagesRedirect($receiver, $sender);
 
     echo $redirect->process();

@@ -14,24 +14,24 @@ class Message implements MessageInterface {
     private $message;
 
     /**
-     * @author MY
-     * @param array $data
-     * @param UserInterface $user
+     * @param array $data Message data
+     * @param UserInterface $user Sender user object
      */
     public function __construct(array $data, UserInterface $user)
     {
         $this->data = $data;
         $this->user = $user;
-        $this->message = 'Новое сообщение от '.$this->user->getName() . PHP_EOL;
     }
 
     public function addAttachment(AttachmentInterface $attachment)
     {
-        echo 'К сообщению прикреплено вложение: '. get_class($attachment) . PHP_EOL;
-        $this->message .= 'К сообщению прикреплено вложение: '. get_class($attachment) . PHP_EOL;
         array_push($this->attachments, $attachment);
     }
 
+    /**
+     * Return message, that will send to user
+     * @return string
+     */
     public function getMessage()
     {
         $this->message = '<strong>' . $this->user->getName() . '</strong> отправил' . ($this->user->getSex() == 1 ? 'a' : '') . ' сообщение.' . PHP_EOL;
@@ -63,7 +63,7 @@ class Message implements MessageInterface {
     }
 
     /**
-     * @author MY
+     * Return user object, that sent message
      * @return UserInterface
      */
     public function getUser(): UserInterface
@@ -72,14 +72,18 @@ class Message implements MessageInterface {
     }
 
     /**
-     * @author MY
-     * @return array
+     * Return array of attachments
+     * @return AttachmentInterface[]
      */
     public function getAttachments(): array
     {
         return $this->attachments;
     }
 
+    /**
+     * Do something when message is delivered, for example: Save message to database
+     * @return void
+     */
     public function delivered()
     {
         app('db')->insert('insert into messages (id, message, delivered_at) values (?, ?, ?)', [

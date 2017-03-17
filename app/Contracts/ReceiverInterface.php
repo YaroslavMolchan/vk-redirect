@@ -5,7 +5,8 @@ namespace App\Contracts;
 use Illuminate\Support\Collection;
 
 interface ReceiverInterface {
-    public function __construct(int $app_id, string $api_secret, string  $token);
+
+    public function __construct($receiver);
 
     /**
      * @return Collection
