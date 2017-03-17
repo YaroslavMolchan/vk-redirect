@@ -34,7 +34,7 @@ class VkHelper implements ReceiverInterface {
         $messages = app('db')->select("SELECT * FROM `messages` ORDER BY id DESC");
 
         $options = [
-            'count' => 10,
+            'count' => 20,
             'v' => 5.62
         ];
         if (!empty($messages) && isset($messages[0])) {

@@ -41,6 +41,6 @@ class CheckMessages extends Command
         $sender = new Helpers\TelegramHelper(env('TELEGRAM_BOT_API'), env('TELEGRAM_CHAT_ID'));
         $redirect = new Helpers\MessagesRedirect($receiver, $sender);
 
-        echo $redirect->process();
+        $redirect->process();
     }
 }

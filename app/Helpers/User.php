@@ -8,6 +8,7 @@ use App\Contracts\UserInterface;
 class User implements UserInterface {
 
     private $receiver;
+    private $user_id;
     private $name;
     private $sex;
 
@@ -18,6 +19,7 @@ class User implements UserInterface {
      */
     public function __construct(int $user_id, ReceiverInterface $receiver)
     {
+        $this->user_id = $user_id;
         $this->receiver = $receiver;
         $this->setName($user_id);
         $this->setSex($user_id);
@@ -47,6 +49,24 @@ class User implements UserInterface {
 
     public function setSex($user_id)
     {
-        $this->name = $this->receiver->getSex($user_id);
+        $this->sex = $this->receiver->getSex($user_id);
+    }
+
+    /**
+     * @author MY
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @author MY
+     * @param mixed $user_id
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
     }
 }

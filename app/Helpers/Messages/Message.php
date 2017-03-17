@@ -8,28 +8,21 @@ use App\Contracts\UserInterface;
 
 class Message implements MessageInterface {
 
-    private $text;
+    private $data;
     private $attachments = [];
     private $user;
     private $message;
 
     /**
      * @author MY
-     * @param string $text
+     * @param array $data
      * @param UserInterface $user
      */
-    public function __construct(string $text, UserInterface $user)
+    public function __construct(array $data, UserInterface $user)
     {
-        $this->text = $text;
+        $this->data = $data;
         $this->user = $user;
-        echo 'Новое сообщение от '.$this->user->getName().' с текстом: '. $text . PHP_EOL;
         $this->message = 'Новое сообщение от '.$this->user->getName() . PHP_EOL;
-    }
-
-    public function addLocation($latitude, $longitude)
-    {
-        echo 'К сообщению прикреплены координаты: '. $latitude . ' - ' . $longitude . PHP_EOL;
-        $this->message .= 'К сообщению прикреплены координаты: '. $latitude . ' - ' . $longitude . PHP_EOL;
     }
 
     public function addAttachment(AttachmentInterface $attachment)
@@ -42,9 +35,57 @@ class Message implements MessageInterface {
     public function getMessage()
     {
         $this->message = '<strong>' . $this->user->getName() . '</strong> отправил' . ($this->user->getSex() == 1 ? 'a' : '') . ' сообщение.' . PHP_EOL;
-        if (!empty($this->text)) {
-            $this->message .= 'Текст сообщения: ' . $this->text . PHP_EOL;
+        if (!empty($this->data['body'])) {
+            $this->message .= 'Текст сообщения: ' . $this->data['body'] . PHP_EOL;
         }
+        if (!empty($this->attachments)) {
+            $this->message .= 'К сообщению добавлены вложения: ';
+            $attachments = [];
+            foreach ($this->attachments as $attachment) {
+                if (!isset($attachments[$attachment->getName()])) {
+                    $attachments[$attachment->getName()] = 1;
+                }
+                else {
+                    $attachments[$attachment->getName()]++;
+                }
+            }
+            $message_attachments = [];
+            foreach ($attachments as $name => $count) {
+                if ($count > 1) {
+                    $name .= ' ('.$count.' шт.)';
+                }
+                $message_attachments[] = $name;
+            }
+            $this->message .= implode(', ', $message_attachments);
+        }
+
         return $this->message;
+    }
+
+    /**
+     * @author MY
+     * @return UserInterface
+     */
+    public function getUser(): UserInterface
+    {
+        return $this->user;
+    }
+
+    /**
+     * @author MY
+     * @return array
+     */
+    public function getAttachments(): array
+    {
+        return $this->attachments;
+    }
+
+    public function delivered()
+    {
+        app('db')->insert('insert into messages (id, message, delivered_at) values (?, ?, ?)', [
+            $this->data['id'],
+            json_encode($this->data),
+            (new \DateTime())->format('Y-m-d H:i:s')
+        ]);
     }
 }

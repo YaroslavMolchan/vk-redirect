@@ -6,6 +6,7 @@ use App\Contracts\ReceiverInterface;
 use App\Contracts\SenderInterface;
 use App\Helpers\Messages\Attachments\Audio;
 use App\Helpers\Messages\Attachments\Doc;
+use App\Helpers\Messages\Attachments\Location;
 use App\Helpers\Messages\Attachments\Photo;
 use App\Helpers\Messages\Attachments\Sticker;
 use App\Helpers\Messages\Attachments\Video;
@@ -42,12 +43,11 @@ class MessagesRedirect {
             throw new \Exception('Новых сообщений нет');
         }
         $this->receiver->getItems()->each(function ($item) {
-//            dd($item);
             $user = new User($item['user_id'], $this->receiver);
-            $message = new Message($item['body'], $user);
+            $message = new Message($item, $user);
             if (!empty($item['geo'])) {
-                $coordinates = explode(' ', $item['geo']['coordinates']);
-                $message->addLocation($coordinates[0],  $coordinates[1]);
+                $attachment = new Location($item['geo']);
+                $message->addAttachment($attachment);
             }
             if (isset($item['attachments'])) {
                 foreach ($item['attachments'] as $item) {
@@ -79,7 +79,7 @@ class MessagesRedirect {
                     }
                     elseif ($item['type'] == 'video') {
                         $attachment = new Video($item);
-                        $this->sender->sendAttachment($attachment);
+//                        $this->sender->sendAttachment($attachment);
 //                        $items['video'][] = [
 //                            'title' => $item['video']['title'],
 //                            'src' => $item['video']['photo_800']
@@ -93,6 +93,7 @@ class MessagesRedirect {
                 }
             }
             $this->sender->sendMessage($message);
+            $message->delivered();
         });
     }
 }
