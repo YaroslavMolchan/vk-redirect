@@ -11,13 +11,26 @@ use TelegramBot\Api\Types\ReplyKeyboardMarkup;
 
 class Telegram implements SenderInterface
 {
+    /**
+     * @var BotApi
+     */
     private $sender;
     private $receiver_id;
 
-    public function __construct($sender, int $receiver_id)
+    /**
+     * @param BotApi $sender
+     */
+    public function setSender($sender)
+    {
+        $this->sender = $sender;
+    }
+
+    /**
+     * @param mixed $receiver_id
+     */
+    public function setReceiverId($receiver_id)
     {
         $this->receiver_id = $receiver_id;
-        $this->sender = $sender;
     }
 
     public function sendMessage(MessageInterface $message)

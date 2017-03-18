@@ -6,7 +6,10 @@ use Illuminate\Support\Collection;
 
 interface ReceiverInterface {
 
-    public function __construct($receiver);
+    /**
+     * @param object $receiver
+     */
+    public function setReceiver($receiver);
 
     /**
      * @return Collection

@@ -2,13 +2,21 @@
 
 namespace App\Helpers;
 
+use App\Contracts\AttachmentInterface;
+use App\Contracts\MessageInterface;
 use App\Contracts\ReceiverInterface;
+use App\Contracts\SenderInterface;
 use Illuminate\Support\Collection;
 use VK\VK;
 
-class VkHelper implements ReceiverInterface {
+class VkHelper implements ReceiverInterface, SenderInterface {
 
+    /**
+     * @var VK
+     */
     private $receiver;
+    private $sender;
+    private $receiver_id;
     private $items;
 
     private $params = [
@@ -17,12 +25,34 @@ class VkHelper implements ReceiverInterface {
 
     /**
      * @author MY
+     */
+    public function __construct()
+    {
+        $this->setItems();
+    }
+
+    /**
      * @param VK $receiver
      */
-    public function __construct($receiver)
+    public function setReceiver($receiver)
     {
         $this->receiver = $receiver;
-        $this->setItems();
+    }
+
+    /**
+     * @param object $sender
+     */
+    public function setSender($sender)
+    {
+        $this->sender = $sender;
+    }
+
+    /**
+     * @param int $receiver_id
+     */
+    public function setReceiverId($receiver_id)
+    {
+        $this->receiver_id = $receiver_id;
     }
 
     /**
@@ -83,5 +113,30 @@ class VkHelper implements ReceiverInterface {
         $insert = array_values($user);
         app('db')->insert('insert into users (id, first_name, last_name, sex) values (?, ?, ?, ?)', $insert);
         return $user;
+    }
+
+    /**
+     * Get Message and resend it
+     * @param MessageInterface $message
+     * @return bool send result
+     */
+    public function sendMessage(MessageInterface $message)
+    {
+        $params = array_merge($this->params, [
+            'user_id' => $this->receiver_id,
+            'random_id' => rand(1, 99999),
+            'message' => 'sex'
+        ]);
+        $this->receiver->api('messages.send', $params);
+    }
+
+    /**
+     * Get attachment and resend it
+     * @param AttachmentInterface $attachment
+     * @return bool send result
+     */
+    public function sendAttachment(AttachmentInterface $attachment)
+    {
+        // TODO: Implement sendAttachment() method.
     }
 }

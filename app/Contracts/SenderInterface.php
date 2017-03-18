@@ -5,10 +5,9 @@ namespace App\Contracts;
 interface SenderInterface {
 
     /**
-     * @param object $sender Sender provider instance
-     * @param int $receiver_id
+     * @param object $sender
      */
-    public function __construct($sender, int $receiver_id);
+    public function setSender($sender);
 
     /**
      * Get Message and resend it
