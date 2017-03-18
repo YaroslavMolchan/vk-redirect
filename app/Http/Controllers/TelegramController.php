@@ -15,8 +15,8 @@ class TelegramController extends Controller
         try {
             $bot = new Client(env('TELEGRAM_BOT_API'));
 
-            $bot->command('ping', function ($message) use ($bot) {
-                $bot->sendMessage($message->getChat()->getId(), json_encode($message));
+            $bot->command('ping', function ($message, $params) use ($bot) {
+                $bot->sendMessage($message->getChat()->getId(), json_encode($params));
             });
 
             $bot->run();
