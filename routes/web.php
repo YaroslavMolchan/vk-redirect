@@ -25,4 +25,4 @@ $app->get('/', function () use ($app) {
 //    $redirect->process();
 });
 
-$app->get('/telegram/webhook', 'TelegramController@webhook');
+$app->post('/telegram/webhook', 'TelegramController@webhook');
