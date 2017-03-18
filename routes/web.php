@@ -10,20 +10,19 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-use App\Helpers;
-$app->get('/', function () use ($app) {
-//
-//    $text = 123;
-//    $url = 123;
-//    $buttons[] = compact('text', 'url');
-//
-//    $replyMarkup['inline_keyboard'] = array_chunk($buttons, 2);
-//    dd(json_encode($replyMarkup));
-//{"inline_keyboard":[[{"text":123,"url":123}]]}
-//{"inline_keyboard":[[{"text":123,"url":"http:\/\/google.com"}]]}
-    $receiver = new Helpers\VkHelper(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
-    $sender = new Helpers\Telegram(env('TELEGRAM_BOT_API'), env('TELEGRAM_CHAT_ID'));
-    $redirect = new Helpers\MessagesRedirect($receiver, $sender);
 
-    echo $redirect->process();
+use App\Helpers;
+use TelegramBot\Api\BotApi;
+use VK\VK;
+
+$app->get('/', function () use ($app) {
+//    $sender_provider = new BotApi(env('TELEGRAM_BOT_API'));
+//    $receiver_provider = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
+//    $receiver = new Helpers\VkHelper($receiver_provider);
+//    $sender = new Helpers\Telegram($sender_provider, env('TELEGRAM_CHAT_ID'));
+//    $redirect = new Helpers\MessagesRedirect($receiver, $sender);
+//
+//    $redirect->process();
 });
+
+$app->get('/telegram/webhook', 'TelegramController@webhook');
