@@ -39,7 +39,7 @@ class Helper implements SenderInterface
         $reply = new InlineKeyboardMarkup(
             [
                 [
-                    ['switch_inline_query_current_chat' => '/answer' . $user_id . ' ', 'text' => 'Ответить'], ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']
+                    ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => 'Ответить'], ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']
                 ]
             ]
         );
