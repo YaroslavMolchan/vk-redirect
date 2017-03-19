@@ -122,9 +122,7 @@ class Helper implements ReceiverInterface, SenderInterface {
 
     public function sendForwardedMessage(MessageInterface $message, $forward_message_id)
     {
-        array_push($this->params, [
-            'forward_messages' => $forward_message_id
-        ]);
+        $this->params['forward_messages'] = $forward_message_id;
         return $this->sendMessage($message);
     }
 
