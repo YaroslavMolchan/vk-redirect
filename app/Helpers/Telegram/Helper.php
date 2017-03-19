@@ -43,7 +43,7 @@ class Helper implements SenderInterface
                 ]
             ]
         );
-        $this->sender->sendMessage($this->receiver_id, $message->getMessage(), 'HTML', false, null, $reply);
+        return $this->sender->sendMessage($this->receiver_id, $message->getMessage(), 'HTML', false, null, $reply);
     }
 
     public function sendAttachment(AttachmentInterface $attachment)
