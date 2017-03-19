@@ -39,7 +39,7 @@ class TelegramController extends Controller
                     $result_data = json_decode($result[0]->message);
                     $m = new Message();
                     $m->setMessage($text);
-                    $vk->setReceiverId($result_data['user_id']);
+                    $vk->setReceiverId($result_data->user_id);
                     if (!$vk->sendForwardedMessage($m, $message_id)) {
                         $bot->sendMessage($message->getChat()->getId(), 'Произошла ошибка');
                     }
