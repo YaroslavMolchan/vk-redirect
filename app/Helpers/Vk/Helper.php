@@ -116,8 +116,8 @@ class Helper implements ReceiverInterface, SenderInterface {
             'random_id' => rand(1, 99999),
             'message' => $message->getMessage()
         ]);
-        $result = $this->sender->api('messages.send', $params);
-        return is_int($result);
+        $response = $this->sender->api('messages.send', $params);
+        return isset($response['response']) && is_int($response['response']);
     }
 
     public function sendForwardedMessage(MessageInterface $message, $forward_message_id)
