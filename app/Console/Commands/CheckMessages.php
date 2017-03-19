@@ -39,19 +39,18 @@ class CheckMessages extends Command
      */
     public function handle()
     {
-        $sender_provider = new BotApi(env('TELEGRAM_BOT_API'));
-        $receiver_provider = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
-        $receiver = new Helpers\VkHelper();
-        $receiver->setReceiver($receiver_provider);
-        $receiver->setSender($sender_provider);
-        $receiver->setReceiverId(env('VK_ID'));
+        $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
+        $vk_api = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
+        $receiver = new Helpers\Vk\Helper();
+        $receiver->setReceiver($vk_api);
 
-        $sender = new Helpers\Telegram();
-        $sender->setSender($sender_provider);
+        $sender = new Helpers\Telegram\Helper();
+        $sender->setSender($telegram_api);
         $sender->setReceiverId(env('TELEGRAM_CHAT_ID'));
 
-        $redirect = new Helpers\MessagesRedirect($receiver, $sender);
-
+        $redirect = new Helpers\VkToTelegramRedirect($receiver, $sender);
         $redirect->process();
+
+        return 'All done';
     }
 }

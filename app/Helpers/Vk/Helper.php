@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helpers\Vk;
 
 use App\Contracts\AttachmentInterface;
 use App\Contracts\MessageInterface;
@@ -9,12 +9,15 @@ use App\Contracts\SenderInterface;
 use Illuminate\Support\Collection;
 use VK\VK;
 
-class VkHelper implements ReceiverInterface, SenderInterface {
+class Helper implements ReceiverInterface, SenderInterface {
 
     /**
      * @var VK
      */
     private $receiver;
+    /**
+     * @var VK
+     */
     private $sender;
     private $receiver_id;
     private $items;
@@ -22,14 +25,6 @@ class VkHelper implements ReceiverInterface, SenderInterface {
     private $params = [
         'v' => 5.62
     ];
-
-    /**
-     * @author MY
-     */
-    public function __construct()
-    {
-        $this->setItems();
-    }
 
     /**
      * @param VK $receiver
@@ -40,7 +35,7 @@ class VkHelper implements ReceiverInterface, SenderInterface {
     }
 
     /**
-     * @param object $sender
+     * @param VK $sender
      */
     public function setSender($sender)
     {
@@ -55,27 +50,22 @@ class VkHelper implements ReceiverInterface, SenderInterface {
         $this->receiver_id = $receiver_id;
     }
 
-    /**
-     * @return Collection
-     */
     public function getItems()
     {
-        return $this->items;
-    }
+        if (is_null($this->items)) {
+            $messages = app('db')->select("SELECT * FROM `messages` ORDER BY id DESC");
 
-    private function setItems()
-    {
-        $messages = app('db')->select("SELECT * FROM `messages` ORDER BY id DESC");
-
-        $options = [
-            'count' => 20,
-            'v' => 5.62
-        ];
-        if (!empty($messages) && isset($messages[0])) {
-            $options['last_message_id'] = $messages[0]->id;
+            $options = [
+                'count' => 20,
+                'v' => 5.62
+            ];
+            if (!empty($messages) && isset($messages[0])) {
+                $options['last_message_id'] = $messages[0]->id;
+            }
+            $result = $this->receiver->api('messages.get', $options);
+            $this->items = collect($result['response']['items'])->where('read_state', 0);
         }
-        $result = $this->receiver->api('messages.get', $options);
-        $this->items = collect($result['response']['items'])->where('read_state', 0);
+        return $this->items;
     }
 
     /**
@@ -85,7 +75,7 @@ class VkHelper implements ReceiverInterface, SenderInterface {
     public function getName(int $user_id)
     {
         $data = $this->getData($user_id);
-        return $data['last_name'] . ' ' . $data['first_name'];
+        return $data['first_name'] . ' ' . $data['last_name'];
     }
 
     public function getSex(int $user_id)
@@ -116,18 +106,26 @@ class VkHelper implements ReceiverInterface, SenderInterface {
     }
 
     /**
-     * Get Message and resend it
      * @param MessageInterface $message
-     * @return bool send result
+     * @return bool
      */
     public function sendMessage(MessageInterface $message)
     {
         $params = array_merge($this->params, [
             'user_id' => $this->receiver_id,
             'random_id' => rand(1, 99999),
-            'message' => 'sex'
+            'message' => $message->getMessage()
         ]);
-        $this->receiver->api('messages.send', $params);
+        $result = $this->sender->api('messages.send', $params);
+        return is_int($result);
+    }
+
+    public function sendForwardedMessage(MessageInterface $message, $forward_message_id)
+    {
+        array_push($this->params, [
+            'forward_messages' => $forward_message_id
+        ]);
+        return $this->sendMessage($message);
     }
 
     /**
@@ -137,6 +135,6 @@ class VkHelper implements ReceiverInterface, SenderInterface {
      */
     public function sendAttachment(AttachmentInterface $attachment)
     {
-        // TODO: Implement sendAttachment() method.
+        return true;
     }
 }

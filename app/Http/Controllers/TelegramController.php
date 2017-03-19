@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use TelegramBot\Api\BotApi;
+use App\Helpers\Vk\Helper;
+use App\Helpers\Vk\Messages\Message;
+use App\Helpers\VkHelper;
 use TelegramBot\Api\Client;
 use TelegramBot\Api\Exception;
-use TelegramBot\Api\Types\Message;
+use VK\VK;
 
 class TelegramController extends Controller
 {
@@ -15,8 +17,17 @@ class TelegramController extends Controller
         try {
             $bot = new Client(env('TELEGRAM_BOT_API'));
 
-            $bot->command('answer', function ($message, $message_id, $text) use ($bot) {
-                $bot->sendMessage($message->getChat()->getId(), 'Answer to ID:' . $message_id.' with text:' . $text);
+            $api = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
+            $vk = new Helper();
+            $vk->setSender($api);
+
+            $bot->command('answer', function ($message, $user_id, $text) use ($bot, $vk) {
+                $m = new Message();
+                $m->setMessage($text);
+                $vk->setReceiverId($user_id);
+                if (!$vk->sendMessage($m)) {
+                    $bot->sendMessage($message->getChat()->getId(), 'Произошла ошибка');
+                }
             });
 
             $bot->run();

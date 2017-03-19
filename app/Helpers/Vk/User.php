@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helpers\Vk;
 
 use App\Contracts\ReceiverInterface;
 use App\Contracts\UserInterface;

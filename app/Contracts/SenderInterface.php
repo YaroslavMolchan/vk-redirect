@@ -10,16 +10,14 @@ interface SenderInterface {
     public function setSender($sender);
 
     /**
-     * Get Message and resend it
      * @param MessageInterface $message
-     * @return bool send result
+     * @return bool result
      */
     public function sendMessage(MessageInterface $message);
 
     /**
-     * Get attachment and resend it
      * @param AttachmentInterface $attachment
-     * @return bool send result
+     * @return bool result
      */
     public function sendAttachment(AttachmentInterface $attachment);
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\Messages;
+namespace App\Helpers\Telegram\Messages;
 
 use App\Contracts\AttachmentInterface;
 use App\Contracts\MessageInterface;
@@ -10,6 +10,9 @@ class Message implements MessageInterface {
 
     private $data;
     private $attachments = [];
+    /**
+     * @var \App\Helpers\Vk\User
+     */
     private $user;
     private $message;
 
@@ -91,5 +94,13 @@ class Message implements MessageInterface {
             json_encode($this->data),
             (new \DateTime())->format('Y-m-d H:i:s')
         ]);
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->data['user_id'];
     }
 }
