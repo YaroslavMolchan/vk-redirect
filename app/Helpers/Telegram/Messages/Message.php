@@ -65,6 +65,11 @@ class Message implements MessageInterface {
         return $this->message;
     }
 
+    public function getId()
+    {
+        return $this->data['id'];
+    }
+
     /**
      * Return user object, that sent message
      * @return UserInterface
