@@ -35,7 +35,6 @@ class Helper implements SenderInterface
     public function sendMessage(MessageInterface $message)
     {
         $user_id = $message->getUserId();
-//        ['switch_inline_query_current_chat' => '/answer' . $user_id . ' ', 'text' => 'Ответить'], ['switch_inline_query_current_chat' => '/quote' . $user_id . ' ', 'text' => 'Цитировать'], ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']
         $reply = new InlineKeyboardMarkup(
             [
                 [

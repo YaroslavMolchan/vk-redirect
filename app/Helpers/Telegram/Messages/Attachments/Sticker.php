@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\Messages\Attachments;
+namespace App\Helpers\Telegram\Messages\Attachments;
 
 use App\Contracts\AttachmentInterface;
 

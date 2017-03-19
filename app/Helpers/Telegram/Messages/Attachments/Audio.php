@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\Messages\Attachments;
+namespace App\Helpers\Telegram\Messages\Attachments;
 
 use App\Contracts\AttachmentInterface;
 
@@ -24,5 +24,13 @@ class Audio implements AttachmentInterface {
     public function getOptions()
     {
         // (MY)TODO: Implement getOptions() method.
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'Музыка';
     }
 }

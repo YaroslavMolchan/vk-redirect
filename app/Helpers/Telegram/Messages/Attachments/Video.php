@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers\Messages\Attachments;
+namespace App\Helpers\Telegram\Messages\Attachments;
 
 use App\Contracts\AttachmentInterface;
 
@@ -41,5 +41,13 @@ class Video implements AttachmentInterface {
      */
     private function getLink() {
         return 'https://vk.com/video' . $this->item['owner_id'] . '_' . $this->item['id'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'Видео';
     }
 }
