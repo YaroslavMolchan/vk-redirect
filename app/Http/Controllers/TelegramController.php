@@ -32,7 +32,7 @@ class TelegramController extends Controller
 
             $bot->command('quote', function ($message, $message_id, $text) use ($bot, $vk) {
                 $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [$message_id]);
-                if (empty($result) || empty($result[0])) {
+                if (empty($result) && !isset($result[0])) {
                     $bot->sendMessage($message->getChat()->getId(), 'Произошла ошибка. Сообщение не найдено в базе.');
                 }
                 $result_data = json_decode($result[0]->message);
