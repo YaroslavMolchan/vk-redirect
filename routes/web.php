@@ -36,7 +36,7 @@ $app->post('/', function () use ($app) {
     $data = json_decode($content, true);
     $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
     $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), json_encode($data));
-    echo $data;
+    echo 'ok';
 });
 
 $app->post('/telegram/webhook', 'TelegramController@webhook');
