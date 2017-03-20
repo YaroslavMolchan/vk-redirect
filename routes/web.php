@@ -32,10 +32,10 @@ $app->get('/', function () use ($app) {
 });
 
 $app->post('/', function () use ($app) {
-    $content = file_get_contents("php://input");
-    $data = json_decode($content, true);
-    $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
-    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), json_encode($data));
+//    $content = file_get_contents("php://input");
+//    $data = json_decode($content, true);
+//    $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
+//    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), json_encode($data));
     echo 'ok';
 });
 
