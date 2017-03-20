@@ -28,7 +28,7 @@ class TelegramController extends Controller
 
             preg_match(self::REGEXP, $data['message']['text'], $matches);
 
-            if (!isset($matches[1]) || isset($matches[2]) || isset($matches[3])) {
+            if (!isset($matches[1]) || !isset($matches[2]) || !isset($matches[3])) {
                 $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Нет совпадений');
                 return 'Error';
             }
