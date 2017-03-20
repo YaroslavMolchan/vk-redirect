@@ -12,6 +12,7 @@
 */
 
 use App\Helpers;
+use App\Helpers\Vk\Messages\Message;
 use TelegramBot\Api\BotApi;
 use VK\VK;
 
@@ -33,7 +34,14 @@ $app->get('/', function () use ($app) {
 $app->post('/', function () use ($app) {
     $content = file_get_contents("php://input");
     $data = json_decode($content, true);
-    echo $data['challenge'];
+    $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
+    $sender = new Helpers\Telegram\Helper();
+    $sender->setSender($telegram_api);
+    $sender->setReceiverId(env('TELEGRAM_CHAT_ID'));
+    $m = new Message();
+    $m->setMessage(json_encode($data));
+    $sender->sendMessage($m);
+    echo $data;
 });
 
 $app->post('/telegram/webhook', 'TelegramController@webhook');
