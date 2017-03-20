@@ -30,4 +30,10 @@ $app->get('/', function () use ($app) {
 //    $redirect->process();
 });
 
+$app->post('/', function () use ($app) {
+    $content = file_get_contents("php://input");
+    $data = json_decode($content, true);
+    echo $data['challenge'];
+});
+
 $app->post('/telegram/webhook', 'TelegramController@webhook');
