@@ -35,12 +35,7 @@ $app->post('/', function () use ($app) {
     $content = file_get_contents("php://input");
     $data = json_decode($content, true);
     $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
-    $sender = new Helpers\Telegram\Helper();
-    $sender->setSender($telegram_api);
-    $sender->setReceiverId(env('TELEGRAM_CHAT_ID'));
-    $m = new Message();
-    $m->setMessage(json_encode($data));
-    $sender->sendMessage($m);
+    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), json_encode($data));
     echo $data;
 });
 
