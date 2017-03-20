@@ -20,17 +20,19 @@ class TelegramController extends Controller
             $content = file_get_contents("php://input");
             $data = json_decode($content, true);
 
-            preg_match(self::REGEXP, $data['message']['text'], $matches);
-
-            if (!isset($matches[1]) || isset($matches[2]) || isset($matches[3])) {
-                return 'Error';
-            }
-
             $api = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
             $vk = new Helper();
             $vk->setSender($api);
 
             $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
+
+            preg_match(self::REGEXP, $data['message']['text'], $matches);
+
+            if (!isset($matches[1]) || isset($matches[2]) || isset($matches[3])) {
+                $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Нет совпадений');
+                return 'Error';
+            }
+            $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Есть совпадения');
 
             if ($matches[1] == 'answer') {
                 $m = new Message();
