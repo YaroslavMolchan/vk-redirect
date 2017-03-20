@@ -32,7 +32,7 @@ class TelegramController extends Controller
                 $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Нет совпадений');
                 return 'Error';
             }
-            $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Есть совпадения');
+            $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Есть совпадения. 1:' . $matches[1] .'| 2: ' . $matches[2].'| 3: '.$matches[3]);
 
             if ($matches[1] == 'answer') {
                 $m = new Message();
