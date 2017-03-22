@@ -34,14 +34,19 @@ class Helper implements SenderInterface
 
     public function sendMessage(MessageInterface $message)
     {
-        $user_id = $message->getUserId();
-        $reply = new InlineKeyboardMarkup(
-            [
+        if (!method_exists($message,'replyButtons')) {
+            $user_id = $message->getUserId();
+            $reply = new InlineKeyboardMarkup(
                 [
-                    ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => 'Ответить'], ['switch_inline_query_current_chat' => '/quote ' . $message->getId() . ' ', 'text' => 'Цитировать'], ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']
+                    [
+                        ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => 'Ответить'], ['switch_inline_query_current_chat' => '/quote ' . $message->getId() . ' ', 'text' => 'Цитировать'], ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']
+                    ]
                 ]
-            ]
-        );
+            );
+        }
+        else {
+            $reply = $message->replyButtons();
+        }
         return $this->sender->sendMessage($this->receiver_id, $message->getMessage(), 'HTML', false, null, $reply);
     }
 
