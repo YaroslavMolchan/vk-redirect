@@ -10,7 +10,6 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-
 $app->post('/', function () use ($app) {
 //    $content = file_get_contents("php://input");
 //    $data = json_decode($content, true);
