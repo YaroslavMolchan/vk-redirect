@@ -19,6 +19,9 @@ class SlackController extends Controller
 
             if ($data['token'] == self::TOKEN) {
                 $user_id = $data['event']['user'];
+                if ($user_id == 'U0CBU220Y') {
+                    return true;
+                }
                 $text = $data['event']['text'];
                 $client = new Client();
                 $response = $client->request('GET', 'https://slack.com/api/users.info?token='.env('SLACK_API_TOKEN').'&user='.$user_id);

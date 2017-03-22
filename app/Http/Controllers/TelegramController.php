@@ -57,9 +57,7 @@ class TelegramController extends Controller
             }
             elseif ($matches[1] == 'slack') {
                 $client = new \GuzzleHttp\Client();
-                $response = $client->request('GET', 'https://slack.com/api/chat.postMessage?token='.env('SLACK_API_TOKEN').'&channel='.$matches[2].'&text='.$matches[3].'&as_user=true');
-                $slack_data = json_decode((string)$response->getBody(), true);
-                $telegram->sendMessage(env('TELEGRAM_CHAT_ID'), json_encode($slack_data));
+                $client->request('GET', 'https://slack.com/api/chat.postMessage?token='.env('SLACK_API_TOKEN').'&channel='.$matches[2].'&text='.$matches[3].'&as_user=true');
             }
 
         } catch (Exception $e) {
