@@ -70,27 +70,11 @@ class Helper implements ReceiverInterface, SenderInterface {
     }
 
     /**
-     * @param int $user_id
-     * @return string
-     */
-    public function getName(int $user_id)
-    {
-        $data = $this->getData($user_id);
-        return $data['first_name'] . ' ' . $data['last_name'];
-    }
-
-    public function getSex(int $user_id)
-    {
-        $data = $this->getData($user_id);
-        return $data['sex'];
-    }
-
-    /**
      * @author MY
      * @param int $user_id
      * @return array
      */
-    private function getData(int $user_id) {
+    public function getUser(int $user_id) {
         $users = app('db')->select("SELECT * FROM `users` WHERE `id` = ?", [$user_id]);
         if (!empty($users)) {
             return (array)$users[0];

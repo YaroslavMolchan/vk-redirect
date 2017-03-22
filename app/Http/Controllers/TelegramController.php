@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Message;
 use App\Helpers\Vk\Helper;
-use App\Helpers\Vk\Messages\Message;
-use App\Helpers\VkHelper;
+use GuzzleHttp\Client;
 use TelegramBot\Api\BotApi;
-use TelegramBot\Api\Client;
 use TelegramBot\Api\Exception;
 use VK\VK;
 
@@ -39,13 +38,11 @@ class TelegramController extends Controller
                 if (!$vk->sendMessage($m)) {
                     $telegram->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
                 }
-            }
-            elseif ($matches[1] == 'quote') {
+            } elseif ($matches[1] == 'quote') {
                 $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [$matches[2]]);
                 if (empty($result)) {
                     $telegram->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка. Сообщение не найдено в базе.');
-                }
-                else {
+                } else {
                     $result_data = json_decode($result[0]->message);
                     $m = new Message();
                     $m->setMessage($matches[3]);
@@ -54,10 +51,9 @@ class TelegramController extends Controller
                         $telegram->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
                     }
                 }
-            }
-            elseif ($matches[1] == 'slack') {
-                $client = new \GuzzleHttp\Client();
-                $client->request('GET', 'https://slack.com/api/chat.postMessage?token='.env('SLACK_API_TOKEN').'&channel='.$matches[2].'&text='.$matches[3].'&as_user=true');
+            } elseif ($matches[1] == 'slack') {
+                $client = new Client();
+                $client->request('GET', 'https://slack.com/api/chat.postMessage?token=' . env('SLACK_API_TOKEN') . '&channel=' . $matches[2] . '&text=' . $matches[3] . '&as_user=true');
             }
 
         } catch (Exception $e) {

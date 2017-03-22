@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Contracts\MessageInterface;
+use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
 
 class Message implements MessageInterface {
 
@@ -40,5 +41,14 @@ class Message implements MessageInterface {
     public function getUserId()
     {
         return $this->user_id;
+    }
+
+    /**
+     * Inline reply to message
+     * @return InlineKeyboardMarkup|null
+     */
+    public function replyButtons()
+    {
+        return null;
     }
 }

@@ -36,8 +36,8 @@ class VkToTelegramRedirect {
         }
 
         $this->vk->getItems()->each(function ($item) {
-            $user = new Vk\User($item['user_id'], $this->vk);
-            $message = new Telegram\Messages\Message($item, $user);
+            $message = new Vk\Messages\Message($item);
+            $message->setUser($this->vk->getUser());
             if (!empty($item['geo'])) {
                 $attachment = new Telegram\Messages\Attachments\Location($item['geo']);
                 $message->addAttachment($attachment);
