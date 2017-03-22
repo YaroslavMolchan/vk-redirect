@@ -20,11 +20,11 @@ class TelegramController extends Controller
             $content = file_get_contents("php://input");
             $data = json_decode($content, true);
 
-            $api = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
+            $vk_api = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
             $vk = new Helper();
-            $vk->setSender($api);
+            $vk->setSender($vk_api);
 
-            $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
+            $telegram = new BotApi(env('TELEGRAM_BOT_API'));
 
             preg_match(self::REGEXP, $data['message']['text'], $matches);
 
@@ -37,13 +37,13 @@ class TelegramController extends Controller
                 $m->setMessage($matches[3]);
                 $vk->setReceiverId($matches[2]);
                 if (!$vk->sendMessage($m)) {
-                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
+                    $telegram->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
                 }
             }
             elseif ($matches[1] == 'quote') {
                 $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [$matches[2]]);
                 if (empty($result)) {
-                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка. Сообщение не найдено в базе.');
+                    $telegram->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка. Сообщение не найдено в базе.');
                 }
                 else {
                     $result_data = json_decode($result[0]->message);
@@ -51,7 +51,7 @@ class TelegramController extends Controller
                     $m->setMessage($matches[3]);
                     $vk->setReceiverId($result_data->user_id);
                     if (!$vk->sendForwardedMessage($m, $matches[2])) {
-                        $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
+                        $telegram->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
                     }
                 }
             }

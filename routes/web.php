@@ -11,26 +11,6 @@
 |
 */
 
-use App\Helpers;
-use App\Helpers\Vk\Messages\Message;
-use TelegramBot\Api\BotApi;
-use VK\VK;
-
-$app->get('/', function () use ($app) {
-//    $sender_provider = new BotApi(env('TELEGRAM_BOT_API'));
-    $receiver_provider = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
-    $receiver = new Helpers\VkHelper();
-    $receiver->setSender($receiver_provider);
-    $message = new Helpers\Vk\Messages\Message();
-    $message->setMessage('test message');
-    $receiver->setReceiverId(env('VK_ID'));
-    $receiver->sendMessage($message);
-//    $sender = new Helpers\Telegram($sender_provider, env('TELEGRAM_CHAT_ID'));
-//    $redirect = new Helpers\MessagesRedirect($receiver, $sender);
-//
-//    $redirect->process();
-});
-
 $app->post('/', function () use ($app) {
 //    $content = file_get_contents("php://input");
 //    $data = json_decode($content, true);
@@ -40,3 +20,5 @@ $app->post('/', function () use ($app) {
 });
 
 $app->post('/telegram/webhook', 'TelegramController@webhook');
+
+$app->post('/slack/webhook', 'SlackController@webhook');

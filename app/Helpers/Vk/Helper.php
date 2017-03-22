@@ -15,6 +15,7 @@ class Helper implements ReceiverInterface, SenderInterface {
      * @var VK
      */
     private $receiver;
+
     /**
      * @var VK
      */
