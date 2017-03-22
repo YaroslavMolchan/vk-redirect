@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Slack\Message;
 use App\Helpers\Telegram\Helper;
-use App\Helpers\Telegram\Messages\Message;
+use Exception;
 use GuzzleHttp\Client;
 use TelegramBot\Api\BotApi;
 
@@ -30,7 +31,7 @@ class SlackController extends Controller
                     $user_id = $slack_data['user']['name'];
                 }
 
-                $message = new \App\Helpers\Slack\Message();
+                $message = new Message();
                 $message->setUserId($data['event']['user']);
                 $message->setMessage($user_id. ' отправил сообщение: '. $text);
 

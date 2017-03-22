@@ -6,12 +6,11 @@ use App\Contracts\AttachmentInterface;
 use App\Contracts\MessageInterface;
 use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
 
-class Message implements MessageInterface {
+class Message extends \App\Helpers\Message {
 
     private $data;
     private $attachments = [];
     private $user;
-    private $message;
 
     /**
      * @param array $data Message data
@@ -24,14 +23,6 @@ class Message implements MessageInterface {
     public function addAttachment(AttachmentInterface $attachment)
     {
         array_push($this->attachments, $attachment);
-    }
-
-    /**
-     * @param mixed $message
-     */
-    public function setMessage($message)
-    {
-        $this->message = $message;
     }
 
     /**

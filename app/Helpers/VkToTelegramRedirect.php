@@ -32,7 +32,7 @@ class VkToTelegramRedirect {
     public function process()
     {
         if ($this->vk->getItems()->count() < 1) {
-            throw new \Exception('Новых сообщений нет');
+            return false;
         }
 
         $this->vk->getItems()->each(function ($item) {
