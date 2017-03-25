@@ -33,7 +33,7 @@ class SlackController extends Controller
 
                 $message = new Message();
                 $message->setUserId($data['event']['user']);
-                $message->setMessage($user_id. ' отправил сообщение: '. $text);
+                $message->setMessage('[Slack] <strong>'.$user_id. '</strong>: '. $text);
 
                 $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
                 $sender = new Helper();
@@ -46,5 +46,6 @@ class SlackController extends Controller
         } catch (Exception $e) {
             $e->getMessage();
         }
+        return true;
     }
 }

@@ -32,12 +32,12 @@ class Message extends \App\Helpers\Message {
     public function getMessage()
     {
         if (is_null($this->message)) {
-            $this->message = '<strong>' . $this->user['first_name'] . ' ' . $this->user['last_name'] . '</strong> отправил' . ($this->user['sex'] == 1 ? 'a' : '') . ' сообщение.' . PHP_EOL;
+            $this->message = '[VK] <strong>' . $this->user['first_name'] . ' ' . $this->user['last_name']  . '</strong>';
             if (!empty($this->data['body'])) {
-                $this->message .= 'Текст сообщения: ' . $this->data['body'] . PHP_EOL;
+                $this->message .= ': ' . $this->data['body'] . PHP_EOL;
             }
-            if (!empty($this->attachments)) {
-                $this->message .= 'К сообщению добавлены вложения: ';
+            elseif (!empty($this->attachments)) {
+                $this->message .= ' отправил' . ($this->user['sex'] == 1 ? 'a' : '') . ' вложения: ';
                 $attachments = [];
                 foreach ($this->attachments as $attachment) {
                     if (!isset($attachments[$attachment->getName()])) {
