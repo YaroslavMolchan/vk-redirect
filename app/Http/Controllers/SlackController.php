@@ -46,6 +46,5 @@ class SlackController extends Controller
         } catch (Exception $e) {
             $e->getMessage();
         }
-        return true;
     }
 }
