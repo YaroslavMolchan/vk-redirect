@@ -10,7 +10,7 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
-$app->any('/', function () use ($app) {
+$app->get('/', function () use ($app) {
 //    $content = file_get_contents("php://input");
 //    $data = json_decode($content, true);
 //    $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
