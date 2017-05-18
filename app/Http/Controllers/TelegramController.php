@@ -34,14 +34,6 @@ class TelegramController extends Controller
             });
 
             $bot->command('quote', function ($message, ...$params) use ($bot, $telegram, $vk) {
-                $receiver = array_shift($params);
-                $text = implode(' ', $params);
-
-                $client = new Client();
-                $client->request('GET', 'https://slack.com/api/chat.postMessage?token=' . env('SLACK_API_TOKEN') . '&channel=' . $receiver . '&text=' . $text . '&as_user=true');
-            });
-
-            $bot->command('slack', function ($message, ...$params) use ($bot, $telegram, $vk) {
                 $receiver_id = array_shift($params);
                 $text = implode(' ', $params);
 
@@ -57,6 +49,14 @@ class TelegramController extends Controller
                         $telegram->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
                     }
                 }
+            });
+
+            $bot->command('slack', function ($message, ...$params) use ($bot, $telegram, $vk) {
+                $receiver = array_shift($params);
+                $text = implode(' ', $params);
+
+                $client = new Client();
+                $client->request('GET', 'https://slack.com/api/chat.postMessage?token=' . env('SLACK_API_TOKEN') . '&channel=' . $receiver . '&text=' . $text . '&as_user=true');
             });
 
             $bot->run();
