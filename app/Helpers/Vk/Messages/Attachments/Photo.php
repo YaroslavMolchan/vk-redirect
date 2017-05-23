@@ -15,7 +15,7 @@ class Photo extends Attachment {
     public function getOptions()
     {
         return [
-            'photo' => $this->item['photo']['photo_604'],
+            'photo' => $this->item['photo_604'],
             'disable_notification' => true
         ];
     }
