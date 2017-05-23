@@ -19,4 +19,9 @@ class Photo extends Attachment {
             'disable_notification' => true
         ];
     }
+
+    public function getIcon()
+    {
+        return config('attachments.icons.' . $this->type);
+    }
 }
