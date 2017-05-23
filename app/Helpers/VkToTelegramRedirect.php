@@ -80,15 +80,15 @@ class VkToTelegramRedirect {
     public function addAttachment($item, $message)
     {
         if ($item['type'] == 'sticker') {
-            $attachment = new Telegram\Messages\Attachments\Sticker($item);
+            $attachment = new Vk\Messages\Attachments\Sticker($item);
 //						$bot->sendPhoto($chatID, $item['sticker']['photo_512'], 'sticker');
         }
         elseif ($item['type'] == 'photo') {
-            $attachment = new Telegram\Messages\Attachments\Photo($item);
+            $attachment = new Vk\Messages\Attachments\Photo($item);
 //			    		array_push($result, 'Фото: '. $item['photo']['photo_604']);
         }
         elseif ($item['type'] == 'doc') {
-            $attachment = new Telegram\Messages\Attachments\Doc($item);
+            $attachment = new Vk\Messages\Attachments\Doc($item);
 //			    		array_push($result, 'Документ: '. $item['doc']['title']);
 //                        $items['doc'][] = [
 //                            'title' => $item['doc']['title'],
@@ -96,7 +96,7 @@ class VkToTelegramRedirect {
 //                        ];
         }
         elseif ($item['type'] == 'audio') {
-            $attachment = new Telegram\Messages\Attachments\Audio($item);
+            $attachment = new Vk\Messages\Attachments\Audio($item);
 //			    		array_push($result, 'Музыка: '. $item['audio']['artist'] . ' - '. $item['audio']['title']);
             //$item['audio']['url']
 //                        $items['audio'][] = [
@@ -105,7 +105,7 @@ class VkToTelegramRedirect {
 //                        ];
         }
         elseif ($item['type'] == 'video') {
-            $attachment = new Telegram\Messages\Attachments\Video($item);
+            $attachment = new Vk\Messages\Attachments\Video($item);
 //                        $this->sender->sendAttachment($attachment);
 //                        $items['video'][] = [
 //                            'title' => $item['video']['title'],
@@ -115,10 +115,10 @@ class VkToTelegramRedirect {
             //$attachment['audio']['photo_320']
         }
         elseif ($item['type'] == 'link') {
-            $attachment = new Telegram\Messages\Attachments\Link($item);
+            $attachment = new Vk\Messages\Attachments\Link($item);
         }
         elseif ($item['type'] == 'wall') {
-            $attachment = new Telegram\Messages\Attachments\Wall($item);
+            $attachment = new Vk\Messages\Attachments\Wall($item);
         }
         if (isset($attachment)) {
             $message->addAttachment($attachment);

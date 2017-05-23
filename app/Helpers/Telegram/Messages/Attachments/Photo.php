@@ -41,4 +41,12 @@ class Photo implements AttachmentInterface {
     {
         return '🎑';
     }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        // TODO: Implement getType() method.
+    }
 }
