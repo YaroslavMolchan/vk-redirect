@@ -39,12 +39,6 @@ class CheckMessages extends Command
      */
     public function handle()
     {
-
-//        $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [154]);
-//        $result_data = json_decode($result[0]->message);
-//        $attachments = collect($result_data->attachments)->where('type', 'photo');
-//        dd($attachments);
-//
         $telegram_api = new BotApi(env('TELEGRAM_BOT_API'));
         $vk_api = new VK(env('VK_APP_ID'), env('VK_API_SECRET'), env('VK_ACCESS_TOKEN'));
         $receiver = new Helpers\Vk\Helper();

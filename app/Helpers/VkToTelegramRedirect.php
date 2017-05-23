@@ -39,16 +39,16 @@ class VkToTelegramRedirect {
             return false;
         }
 
-//        $this->vk->getItems()->each(function ($item) {
-//            $message = new Vk\Messages\Message($item);
-//            $message->setUser($this->vk->getUser($item['user_id']));
-//
-//            $this->parseAttachments($item, $message);
-//
-//            if ($this->telegram->sendMessage($message)) {
-//                $message->delivered();
-//            }
-//        });
+        $this->vk->getItems()->each(function ($item) {
+            $message = new Vk\Messages\Message($item);
+            $message->setUser($this->vk->getUser($item['user_id']));
+
+            $this->parseAttachments($item, $message);
+
+            if ($this->telegram->sendMessage($message)) {
+                $message->delivered();
+            }
+        });
 
         return true;
     }
