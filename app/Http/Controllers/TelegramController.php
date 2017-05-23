@@ -68,7 +68,6 @@ class TelegramController extends Controller
                     $telegram->setReceiverId(env('TELEGRAM_CHAT_ID'));
                     $attachments = collect($result_data['attachments'])->where('type', 'photo');
                     foreach ($attachments as $data) {
-                        $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), '1111');
                         $attachment = new Photo($data);
                         if (!$telegram->sendAttachment($attachment)) {
                             $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');

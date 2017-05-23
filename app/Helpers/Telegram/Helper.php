@@ -41,6 +41,6 @@ class Helper implements SenderInterface
     {
         $options = array_prepend($attachment->getOptions(), $this->receiver_id);
 
-        call_user_func_array([$this->sender, $attachment->getMethod()], $options);
+        return call_user_func_array([$this->sender, $attachment->getMethod()], $options);
     }
 }
