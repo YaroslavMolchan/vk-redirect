@@ -9,9 +9,6 @@ class Photo extends Attachment {
         return 'sendPhoto';
     }
 
-    /**
-     * @return array
-     */
     public function getOptions()
     {
         return [

@@ -2,35 +2,18 @@
 
 namespace App\Helpers\Vk\Messages\Attachments;
 
-use App\Contracts\AttachmentInterface;
+class Audio extends Attachment {
 
-class Audio implements AttachmentInterface {
-
-    public function __construct(array $item)
-    {
-    }
-
-    /**
-     * @return string
-     */
     public function getMethod()
     {
-        // (MY)TODO: Implement getMethod() method.
+        return 'sendAudio';
     }
 
-    /**
-     * @return array
-     */
     public function getOptions()
     {
-        // (MY)TODO: Implement getOptions() method.
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'Музыка';
+        return [
+            'audio' => $this->item['url'],
+            'caption' => $this->item['artist'] .' - ' . $this->item['title']
+        ];
     }
 }

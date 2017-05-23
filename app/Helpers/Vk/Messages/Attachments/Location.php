@@ -2,35 +2,30 @@
 
 namespace App\Helpers\Vk\Messages\Attachments;
 
-use App\Contracts\AttachmentInterface;
-
-class Location implements AttachmentInterface {
+class Location extends Attachment {
 
     public function __construct(array $item)
     {
+        $this->type = $item['type'];
+        $this->item = $item;
     }
 
-    /**
-     * @return string
-     */
     public function getMethod()
     {
-        // (MY)TODO: Implement getMethod() method.
+        return 'sendLocation';
     }
 
-    /**
-     * @return array
-     */
     public function getOptions()
     {
-        // (MY)TODO: Implement getOptions() method.
+        return $this->coordinates();
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'Локация';
+    public function coordinates() {
+        $coordinates = explode(' ', $this->item['coordinates']);
+
+        return [
+            'latitude' => $coordinates[0],
+            'longitude' => $coordinates[1]
+        ];
     }
 }
