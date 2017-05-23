@@ -30,7 +30,12 @@ class Attachment implements AttachmentInterface {
     public function __construct(array $item)
     {
         $this->type = $item['type'];
-        $this->item = $item[$item['type']];
+        if (array_key_exists($item['type'], $item)) {
+            $this->item = $item[$item['type']];
+        }
+        else {
+            $this->item = $item;
+        }
     }
 
     /**
