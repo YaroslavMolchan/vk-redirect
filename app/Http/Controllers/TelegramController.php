@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Message;
 use App\Helpers\Vk\Helper;
+use App\Helpers\Vk\Messages\Attachments\Photo;
 use GuzzleHttp\Client;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Exception;
@@ -63,7 +64,14 @@ class TelegramController extends Controller
                     $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка. Сообщение не найдено в базе.');
                 } else {
                     //todo add attachment
-//                    $result_data = json_decode($result[0]->message);
+                    $result_data = json_decode($result[0]->message);
+                    $attachments = collect($result_data->attachments)->where('type', 'photo');
+                    foreach ($attachments as $data) {
+                        $attachment = new Photo($data);
+                        if (!$telegram->sendAttachment($attachment)) {
+                            $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
+                        }
+                    }
 //                    foreach ( as $item) {
 //
 //                    }

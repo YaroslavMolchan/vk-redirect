@@ -120,7 +120,7 @@ class Message extends \App\Helpers\Message
         $attachments_keyboard = [];
         /** @var AttachmentInterface $attachment */
         foreach ($this->attachments as $attachment) {
-            array_push($attachments_keyboard, ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => $attachment->getIcon()]);
+            array_push($attachments_keyboard, ['switch_inline_query_current_chat' => '/'.$attachment->getType().' ' . $message_id, 'text' => $attachment->getIcon()]);
         }
 
         if (!empty($attachments_keyboard)) {
