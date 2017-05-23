@@ -65,6 +65,7 @@ class TelegramController extends Controller
                 } else {
                     //todo add attachment
                     $result_data = json_decode($result[0]->message, true);
+                    $telegram->setReceiverId($result_data['user_id']);
                     $attachments = collect($result_data['attachments'])->where('type', 'photo');
                     foreach ($attachments as $data) {
                         $attachment = new Photo($data);
