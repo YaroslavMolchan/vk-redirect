@@ -123,9 +123,7 @@ class Message extends \App\Helpers\Message
             array_push($attachments_keyboard, ['switch_inline_query_current_chat' => '/'.$attachment->getType().' ' . $message_id, 'text' => $attachment->getIcon()]);
         }
 
-        if (!empty($attachments_keyboard)) {
-            array_unshift($keyboard, $attachments_keyboard);
-        }
+        array_unshift($keyboard, $attachments_keyboard);
 
         dd($keyboard[0]);
 
