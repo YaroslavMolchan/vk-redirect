@@ -33,4 +33,12 @@ class Photo implements AttachmentInterface {
     {
         return 'Фото';
     }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return '🎑';
+    }
 }

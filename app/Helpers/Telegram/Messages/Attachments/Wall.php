@@ -33,4 +33,12 @@ class Wall implements AttachmentInterface {
     {
         return 'Стена';
     }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return 'Стена';
+    }
 }

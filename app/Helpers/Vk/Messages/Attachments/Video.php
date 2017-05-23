@@ -2,28 +2,7 @@
 
 namespace App\Helpers\Vk\Messages\Attachments;
 
-use App\Contracts\AttachmentInterface;
-
-class Video implements AttachmentInterface {
-
-    /**
-     * @var array
-     */
-    private $item;
-
-    public function __construct(array $item)
-    {
-        $this->item = $item[$item['type']];
-    }
-
-    /**
-     * Ссылку на видео взять нельзя, так что отправляем просто ссылку на видео VK
-     * @return string
-     */
-    public function getMethod()
-    {
-        return 'sendMessage';
-    }
+class Video extends Attachment {
 
     /**
      * @return array
@@ -41,13 +20,5 @@ class Video implements AttachmentInterface {
      */
     private function getLink() {
         return 'https://vk.com/video' . $this->item['owner_id'] . '_' . $this->item['id'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'Видео';
     }
 }

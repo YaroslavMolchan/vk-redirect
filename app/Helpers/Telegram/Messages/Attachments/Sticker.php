@@ -33,4 +33,12 @@ class Sticker implements AttachmentInterface {
     {
         // (MY)TODO: Implement getOptions() method.
     }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return 'Стикер';
+    }
 }

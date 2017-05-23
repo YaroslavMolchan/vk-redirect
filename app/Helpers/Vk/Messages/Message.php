@@ -6,7 +6,8 @@ use App\Contracts\AttachmentInterface;
 use App\Contracts\MessageInterface;
 use TelegramBot\Api\Types\Inline\InlineKeyboardMarkup;
 
-class Message extends \App\Helpers\Message {
+class Message extends \App\Helpers\Message
+{
 
     private $data;
     private $attachments = [];
@@ -32,25 +33,26 @@ class Message extends \App\Helpers\Message {
     public function getMessage()
     {
         if (is_null($this->message)) {
-            $this->message = '[VK] <strong>' . $this->user['first_name'] . ' ' . $this->user['last_name']  . '</strong>';
+            $this->message = '[VK] <strong>' . $this->user['first_name'] . ' ' . $this->user['last_name'] . '</strong>';
+
             if (!empty($this->data['body'])) {
                 $this->message .= ': ' . $this->data['body'] . PHP_EOL;
             }
-            elseif (!empty($this->attachments)) {
+
+            if (!empty($this->attachments)) {
                 $this->message .= ' отправил' . ($this->user['sex'] == 1 ? 'a' : '') . ' вложения: ';
                 $attachments = [];
                 foreach ($this->attachments as $attachment) {
                     if (!isset($attachments[$attachment->getName()])) {
                         $attachments[$attachment->getName()] = 1;
-                    }
-                    else {
+                    } else {
                         $attachments[$attachment->getName()]++;
                     }
                 }
                 $message_attachments = [];
                 foreach ($attachments as $name => $count) {
                     if ($count > 1) {
-                        $name .= ' ('.$count.' шт.)';
+                        $name .= ' (' . $count . ' шт.)';
                     }
                     $message_attachments[] = $name;
                 }
@@ -72,7 +74,8 @@ class Message extends \App\Helpers\Message {
     /**
      * @return array
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
 
@@ -106,15 +109,25 @@ class Message extends \App\Helpers\Message {
     public function replyButtons()
     {
         $user_id = $this->data['user_id'];
-        return new InlineKeyboardMarkup(
-            [
-                [
-                    ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => 'Ответить'],
-                    ['switch_inline_query_current_chat' => '/quote ' . $this->data['id'] . ' ', 'text' => 'Цитировать'],
-                    ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']
-                ]
-            ]
-        );
+        $message_id = $this->data['id'];
+
+        $keyboard = [
+            ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => 'Ответить'],
+            ['switch_inline_query_current_chat' => '/quote ' . $message_id . ' ', 'text' => 'Цитировать'],
+            ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']
+        ];
+
+        $attachments_keyboard = [];
+        /** @var AttachmentInterface $attachment */
+        foreach ($this->attachments as $attachment) {
+            array_push($attachments_keyboard, ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => $attachment->getIcon()]);
+        }
+
+        if (!empty($attachments_keyboard)) {
+            array_unshift($keyboard, $attachments_keyboard);
+        }
+
+        return new InlineKeyboardMarkup($keyboard);
     }
 
     /**

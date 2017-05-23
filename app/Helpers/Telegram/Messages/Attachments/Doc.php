@@ -33,4 +33,12 @@ class Doc implements AttachmentInterface {
     {
         return 'Документ';
     }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return '📎';
+    }
 }

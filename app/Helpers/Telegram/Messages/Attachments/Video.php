@@ -50,4 +50,12 @@ class Video implements AttachmentInterface {
     {
         return 'Видео';
     }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return '🎬';
+    }
 }

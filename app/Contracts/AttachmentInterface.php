@@ -7,6 +7,11 @@ interface AttachmentInterface {
     /**
      * @return string
      */
+    public function getType();
+
+    /**
+     * @return string
+     */
     public function getName();
 
     /**
@@ -19,4 +24,8 @@ interface AttachmentInterface {
      */
     public function getOptions();
 
+    /**
+     * @return string
+     */
+    public function getIcon();
 }

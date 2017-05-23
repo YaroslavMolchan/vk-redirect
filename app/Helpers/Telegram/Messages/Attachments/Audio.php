@@ -33,4 +33,12 @@ class Audio implements AttachmentInterface {
     {
         return 'Музыка';
     }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return '🎵';
+    }
 }

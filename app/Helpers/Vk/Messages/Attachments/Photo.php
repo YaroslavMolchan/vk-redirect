@@ -2,20 +2,11 @@
 
 namespace App\Helpers\Vk\Messages\Attachments;
 
-use App\Contracts\AttachmentInterface;
+class Photo extends Attachment {
 
-class Photo implements AttachmentInterface {
-
-    public function __construct(array $item)
-    {
-    }
-
-    /**
-     * @return string
-     */
     public function getMethod()
     {
-        // (MY)TODO: Implement getMethod() method.
+        return 'sendPhoto';
     }
 
     /**
@@ -23,14 +14,9 @@ class Photo implements AttachmentInterface {
      */
     public function getOptions()
     {
-        // (MY)TODO: Implement getOptions() method.
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'Фото';
+        return [
+            'photo' => $this->item['photo']['photo_604'],
+            'disable_notification' => true
+        ];
     }
 }

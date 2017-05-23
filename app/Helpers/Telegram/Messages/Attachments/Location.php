@@ -33,4 +33,12 @@ class Location implements AttachmentInterface {
     {
         return 'Локация';
     }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return '🌍';
+    }
 }
