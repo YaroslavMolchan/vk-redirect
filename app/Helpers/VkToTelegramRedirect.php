@@ -61,7 +61,7 @@ class VkToTelegramRedirect {
     public function parseAttachments($item, $message)
     {
         if (!empty($item['geo'])) {
-            $attachment = new Telegram\Messages\Attachments\Location($item['geo']);
+            $attachment = new Vk\Messages\Attachments\Location($item['geo']);
             $message->addAttachment($attachment);
         }
 
