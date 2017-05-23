@@ -129,6 +129,9 @@ class Message extends \App\Helpers\Message
             array_unshift($keyboard, $attachments_keyboard);
         }
 
+        print_r($keyboard);
+        die();
+
         return new InlineKeyboardMarkup($keyboard);
     }
 
