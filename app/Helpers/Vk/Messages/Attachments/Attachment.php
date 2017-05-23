@@ -28,7 +28,7 @@ class Attachment implements AttachmentInterface {
      */
     public function getName()
     {
-        return config('attachments.names.' . $this->type);
+        return config('attachments.names')[$this->type];
     }
 
     /**
@@ -54,6 +54,6 @@ class Attachment implements AttachmentInterface {
      */
     public function getIcon()
     {
-        return config('attachments.icons.' . $this->type);
+        return config('attachments.icons')[$this->type];
     }
 }

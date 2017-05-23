@@ -11,20 +11,11 @@ return [
     ],
 
     'icons' => [
-        'audio' => 'a',
-        'doc' => 'd',
-        'location' => 'l',
-        'photo' => 'p',
-        'sticker' => 's',
-        'video' => 'v',
+        'audio' => '🎵',
+        'doc' => '📎',
+        'location' => '🌍',
+        'photo' => '🎑',
+        'sticker' => '🗽',
+        'video' => '🎬',
     ],
-
-//    'icons' => [
-//        'audio' => '🎵',
-//        'doc' => '📎',
-//        'location' => '🌍',
-//        'photo' => '🎑',
-//        'sticker' => '🗽',
-//        'video' => '🎬',
-//    ],
 ];
