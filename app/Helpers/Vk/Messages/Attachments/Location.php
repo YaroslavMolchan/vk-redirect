@@ -6,6 +6,8 @@ class Location extends Attachment {
 
     public function __construct(array $item)
     {
+        parent::__construct($item);
+
         $this->type = $item['type'];
         $this->item = $item;
     }
