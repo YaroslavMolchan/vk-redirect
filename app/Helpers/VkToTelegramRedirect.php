@@ -117,6 +117,9 @@ class VkToTelegramRedirect {
         elseif ($item['type'] == 'link') {
             $attachment = new Telegram\Messages\Attachments\Link($item);
         }
+        elseif ($item['type'] == 'wall') {
+            $attachment = new Telegram\Messages\Attachments\Wall($item);
+        }
         if (isset($attachment)) {
             $message->addAttachment($attachment);
         }
