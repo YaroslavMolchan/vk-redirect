@@ -73,14 +73,6 @@ class TelegramController extends Controller
                             $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
                         }
                     }
-//                    foreach ( as $item) {
-//
-//                    }
-//                    $attachment = new Attac;
-//                    $vk->setReceiverId($result_data->user_id);
-//                    if (!$telegram->sendAttachment($attachment)) {
-//                        $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
-//                    }
                 }
             });
 
