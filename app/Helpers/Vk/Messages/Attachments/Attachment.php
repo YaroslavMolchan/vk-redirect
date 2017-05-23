@@ -12,7 +12,7 @@ class Attachment implements AttachmentInterface {
     protected $names = [
         'audio' => 'Музыка',
         'doc' => 'Документ',
-        'location' => 'Локация',
+        'point' => 'Локация',
         'photo' => 'Фото',
         'sticker' => 'Стикер',
         'video' => 'Видео',
@@ -21,7 +21,7 @@ class Attachment implements AttachmentInterface {
     protected $icons = [
         'audio' => '🎵',
         'doc' => '📎',
-        'location' => '🌍',
+        'point' => '🌍',
         'photo' => '🎑',
         'sticker' => '🗽',
         'video' => '🎬',
