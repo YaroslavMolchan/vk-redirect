@@ -9,6 +9,24 @@ class Attachment implements AttachmentInterface {
     protected $item;
     protected $type;
 
+    protected $names = [
+        'audio' => 'Музыка',
+        'doc' => 'Документ',
+        'location' => 'Локация',
+        'photo' => 'Фото',
+        'sticker' => 'Стикер',
+        'video' => 'Видео',
+    ];
+
+    protected $icons = [
+        'audio' => '🎵',
+        'doc' => '📎',
+        'location' => '🌍',
+        'photo' => '🎑',
+        'sticker' => '🗽',
+        'video' => '🎬',
+    ];
+
     public function __construct(array $item)
     {
         $this->type = $item['type'];
@@ -28,7 +46,7 @@ class Attachment implements AttachmentInterface {
      */
     public function getName()
     {
-        return config('attachments.names')[$this->type];
+        return $this->names[$this->type];
     }
 
     /**
@@ -54,6 +72,6 @@ class Attachment implements AttachmentInterface {
      */
     public function getIcon()
     {
-        return config('attachments.icons')[$this->type];
+        return $this->icons[$this->type];
     }
 }
