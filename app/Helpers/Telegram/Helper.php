@@ -40,7 +40,7 @@ class Helper implements SenderInterface
     public function sendAttachment(AttachmentInterface $attachment)
     {
         $options = array_prepend($attachment->getOptions(), $this->receiver_id);
-        $this->sender->sendMessage($this->receiver_id, serialize($options));
+
         call_user_func_array([$this->sender, $attachment->getMethod()], $options);
     }
 }
