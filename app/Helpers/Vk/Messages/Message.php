@@ -112,9 +112,11 @@ class Message extends \App\Helpers\Message
         $message_id = $this->data['id'];
 
         $keyboard = [
-            ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => 'Ответить'],
-            ['switch_inline_query_current_chat' => '/quote ' . $message_id . ' ', 'text' => 'Цитировать'],
-            ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']
+            [
+                ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => 'Ответить'],
+                ['switch_inline_query_current_chat' => '/quote ' . $message_id . ' ', 'text' => 'Цитировать'],
+                ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']
+            ]
         ];
 
         $attachments_keyboard = [];
@@ -125,9 +127,6 @@ class Message extends \App\Helpers\Message
 
         if (!empty($attachments_keyboard)) {
             array_unshift($keyboard, $attachments_keyboard);
-        }
-        else {
-            $keyboard = [$keyboard];
         }
 
         print_r($keyboard);
