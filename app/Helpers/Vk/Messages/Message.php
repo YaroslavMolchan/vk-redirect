@@ -130,7 +130,7 @@ class Message extends \App\Helpers\Message
             $keyboard = [$keyboard];
         }
 
-        dd($keyboard[0]);
+        dd($keyboard);
 
         return new InlineKeyboardMarkup($keyboard);
     }
