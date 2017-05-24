@@ -67,10 +67,10 @@ class TelegramController extends Controller
             };
 
             $bot->on(function($update) use ($bot, $callback_loc){
-                $callback = $update->getCallbackQuery();
-                $data = $callback->getData();
-                $this->p($data , '$data');
-                $callback_loc($callback);
+                $this->p($update , '$update');
+//                $callback = $update->getCallbackQuery();
+//                $data = $callback->getData();
+//                $callback_loc($callback);
             }, function($update){
                 $this->p($update , '$update');
 //                $callback = $update->getCallbackQuery();
