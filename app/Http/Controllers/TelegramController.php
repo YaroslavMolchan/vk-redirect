@@ -64,7 +64,7 @@ class TelegramController extends Controller
                 $message = $callback->getMessage();
                 $chatid = $message->getChat()->getId();
                 $this->p($message , '$callback_loc');
-            }
+            };
 
             $bot->on(function($update) use ($bot, $callback_loc){
                 $callback = $update->getCallbackQuery();
