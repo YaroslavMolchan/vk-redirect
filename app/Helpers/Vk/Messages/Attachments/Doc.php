@@ -9,6 +9,13 @@ class Doc extends Attachment {
 //        return 'sendDocument';
 //    }
 
+    public function getOptions()
+    {
+        return [
+            'text' => 'Документ с названием: "'.$this->item['title'].'". Ссылка: ' . $this->item['url']
+        ];
+    }
+
 //    public function getOptions()
 //    {
 //        return [
