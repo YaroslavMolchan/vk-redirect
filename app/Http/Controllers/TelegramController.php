@@ -73,9 +73,9 @@ class TelegramController extends Controller
                 $callback_loc($callback);
             }, function($update){
                 $this->p($update , '$update');
-                $callback = $update->getCallbackQuery();
-                if (is_null($callback) || !strlen($callback->getData()))
-                    return false;
+//                $callback = $update->getCallbackQuery();
+//                if (is_null($callback) || !strlen($callback->getData()))
+//                    return false;
                 return true;
             });
 //
