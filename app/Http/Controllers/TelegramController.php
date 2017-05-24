@@ -58,9 +58,12 @@ class TelegramController extends Controller
                 }
             });
 
+            $this->p();
             $bot->on(function($update) use ($bot, $telegram_api){
                 $callback = $update->getCallbackQuery();
+                $this->p($callback, 'callback');
                 $data = $callback->getData();
+                $this->p($data, 'data');
                 $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), serialize($data));
             });
 
@@ -116,5 +119,36 @@ class TelegramController extends Controller
         } catch (Exception $e) {
             $e->getMessage();
         }
+    }
+
+    public function p($input = null, $title = null)
+    {
+        if (is_null($title)) {
+            $title=$_SERVER['REQUEST_METHOD'];
+        }
+        if (is_null($input)) {
+            $text = var_export($_REQUEST, true);
+            $input = @file_get_contents("php://input");
+        }
+//        $event = json_decode($input);
+        $url = "https://api.pushbullet.com/v2/pushes";
+        $data = [
+            'type' => 'note',
+            'title' => $title,
+            'body' => $input,
+//            'body' => $text,
+        ];
+        $data = json_encode($data);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Bearer o.n9yeGc7W6mdLVXucmwCUW3VJ8OKdAdPn",
+            "Content-Type: application/json",
+            'Content-Length: ' . strlen($data)
+        ]);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $result = curl_exec($ch);
+        curl_close($ch);
     }
 }
