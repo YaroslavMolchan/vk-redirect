@@ -13,7 +13,7 @@ class Doc extends Attachment {
     {
         return [
             'document' => $this->item['url'],
-            'caption' => $this->item['title']
+//            'caption' => $this->item['title']
         ];
     }
 }
