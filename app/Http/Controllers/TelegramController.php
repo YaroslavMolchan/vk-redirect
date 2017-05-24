@@ -60,22 +60,9 @@ class TelegramController extends Controller
 
             $this->p();
 
-            $callback_loc = function ($callback) use ($bot) {
-                $message = $callback->getMessage();
-                $chatid = $message->getChat()->getId();
-                $this->p($message , '$callback_loc');
-            };
-
-            $bot->on(function($update) use ($bot, $callback_loc){
-                $this->p($update , '$update');
-//                $callback = $update->getCallbackQuery();
-//                $data = $callback->getData();
-//                $callback_loc($callback);
-            }, function($update){
-                $this->p($update , '$update');
-//                $callback = $update->getCallbackQuery();
-//                if (is_null($callback) || !strlen($callback->getData()))
-//                    return false;
+            $bot->on(function($message) use ($bot){
+                $this->p($message, '$message');
+            }, function($message) use ($name){
                 return true;
             });
 //
