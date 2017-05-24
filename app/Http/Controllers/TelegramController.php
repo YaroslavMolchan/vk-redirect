@@ -62,12 +62,6 @@ class TelegramController extends Controller
                 $callback = $update->getCallbackQuery();
                 $data = $callback->getData();
                 $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), serialize($data));
-            }, function($update){
-                $callback = $update->getCallbackQuery();
-                if (is_null($callback) || !strlen($callback->getData()))
-                    return false;
-
-                return true;
             });
 
             $attachments = [
