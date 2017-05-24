@@ -113,6 +113,7 @@ class Message extends \App\Helpers\Message
 
         $keyboard = [
             [
+                ['callback_data' => '123', 'text' => 'Ответить'],
                 ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => 'Ответить'],
                 ['switch_inline_query_current_chat' => '/quote ' . $message_id . ' ', 'text' => 'Цитировать'],
                 ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']

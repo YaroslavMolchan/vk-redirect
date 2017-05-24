@@ -12,7 +12,7 @@ class Doc extends Attachment {
     public function getOptions()
     {
         return [
-            'text' => 'Документ с названием: "'.$this->item['title'].'". Ссылка: ' . $this->item['url']
+            'text' => 'Документ: "'.$this->item['title'].'". Ссылка: ' . $this->item['url']
         ];
     }
 
