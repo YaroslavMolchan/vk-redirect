@@ -61,9 +61,7 @@ class TelegramController extends Controller
             $this->p();
 
             $bot->on(function($message) use ($bot, $telegram_api){
-                $callback = $message->getInlineQuery();
-                $this->p(serialize($callback->getId()), 'test');
-                $bot->answerCallbackQuery($callback->getId());
+                $this->p(serialize($message->toJson()), 'test');
             }, function($message){
                 return true;
             });
