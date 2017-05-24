@@ -130,6 +130,7 @@ class TelegramController extends Controller
                             $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
                         }
                     }
+                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), serialize($attachments->toArray()));
                 }
             });
 
