@@ -8,6 +8,7 @@ use App\Helpers\Vk\Messages\Attachments\Doc;
 use App\Helpers\Vk\Messages\Attachments\Location;
 use App\Helpers\Vk\Messages\Attachments\Video;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Exception;
 use VK\VK;
@@ -55,6 +56,18 @@ class TelegramController extends Controller
                         $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
                     }
                 }
+            });
+
+            $bot->on(function($update) use ($bot, $telegram_api){
+                $callback = $update->getCallbackQuery();
+                $data = $callback->getData();
+                $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), serialize($data));
+            }, function($update){
+                $callback = $update->getCallbackQuery();
+                if (is_null($callback) || !strlen($callback->getData()))
+                    return false;
+
+                return true;
             });
 
             $attachments = [
