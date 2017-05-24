@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Message;
 use App\Helpers\Vk\Helper;
+use App\Helpers\Vk\Messages\Attachments\Doc;
 use App\Helpers\Vk\Messages\Attachments\Location;
 use App\Helpers\Vk\Messages\Attachments\Video;
 use GuzzleHttp\Client;
@@ -125,7 +126,7 @@ class TelegramController extends Controller
                     $telegram->setReceiverId(env('TELEGRAM_CHAT_ID'));
                     $attachments = collect($result_data['attachments'])->where('type', 'doc');
                     foreach ($attachments as $data) {
-                        $attachment = new Video($data);
+                        $attachment = new Doc($data);
                         if (!$telegram->sendAttachment($attachment)) {
                             $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
                         }
