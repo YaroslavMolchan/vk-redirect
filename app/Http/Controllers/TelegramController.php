@@ -67,72 +67,34 @@ class TelegramController extends Controller
             ];
 
             foreach ($attachments as $type) {
-//                $bot->command($type, function ($message, ...$params) use ($bot, $telegram_api, $vk, $telegram, $type) {
-//                    $message_id = array_shift($params);
-//
-//                    $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [$message_id]);
-//                    if (empty($result)) {
-//                        $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка. Сообщение не найдено в базе.');
-//                    } else {
-//                        $result_data = json_decode($result[0]->message, true);
-//                        $telegram->setReceiverId(env('TELEGRAM_CHAT_ID'));
-//                        if ($type == 'point') {
-//                            $attachment = new Location($result_data['geo']);
-//                            if (!$telegram->sendAttachment($attachment)) {
-//                                $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
-//                            }
-//                        }
-//                        else {
-//                            $attachments = collect($result_data['attachments'])->where('type', $type);
-//                            foreach ($attachments as $data) {
-//                                $class = '\App\Helpers\Vk\Messages\Attachments\\' . ucfirst($type);
-//                                $attachment = new $class($data);
-//                                if (!$telegram->sendAttachment($attachment)) {
-//                                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
-//                                }
-//                            }
-//                        }
-//                    }
-//                });
+                $bot->command($type, function ($message, ...$params) use ($bot, $telegram_api, $vk, $telegram, $type) {
+                    $message_id = array_shift($params);
+
+                    $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [$message_id]);
+                    if (empty($result)) {
+                        $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка. Сообщение не найдено в базе.');
+                    } else {
+                        $result_data = json_decode($result[0]->message, true);
+                        $telegram->setReceiverId(env('TELEGRAM_CHAT_ID'));
+                        if ($type == 'point') {
+                            $attachment = new Location($result_data['geo']);
+                            if (!$telegram->sendAttachment($attachment)) {
+                                $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
+                            }
+                        }
+                        else {
+                            $attachments = collect($result_data['attachments'])->where('type', $type);
+                            foreach ($attachments as $data) {
+                                $class = '\App\Helpers\Vk\Messages\Attachments\\' . ucfirst($type);
+                                $attachment = new $class($data);
+                                if (!$telegram->sendAttachment($attachment)) {
+                                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
+                                }
+                            }
+                        }
+                    }
+                });
             }
-
-            $bot->command('video', function ($message, ...$params) use ($bot, $telegram_api, $vk, $telegram) {
-                $message_id = array_shift($params);
-
-                $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [$message_id]);
-                if (empty($result)) {
-                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка. Сообщение не найдено в базе.');
-                } else {
-                    $result_data = json_decode($result[0]->message, true);
-                    $telegram->setReceiverId(env('TELEGRAM_CHAT_ID'));
-                    $attachments = collect($result_data['attachments'])->where('type', 'video');
-                    foreach ($attachments as $data) {
-                        $attachment = new Video($data);
-                        if (!$telegram->sendAttachment($attachment)) {
-                            $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
-                        }
-                    }
-                }
-            });
-
-            $bot->command('doc', function ($message, ...$params) use ($bot, $telegram_api, $vk, $telegram) {
-                $message_id = array_shift($params);
-
-                $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [$message_id]);
-                if (empty($result)) {
-                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка. Сообщение не найдено в базе.');
-                } else {
-                    $result_data = json_decode($result[0]->message, true);
-                    $telegram->setReceiverId(env('TELEGRAM_CHAT_ID'));
-                    $attachments = collect($result_data['attachments'])->where('type', 'doc');
-                    foreach ($attachments as $data) {
-                        $attachment = new Doc($data);
-                        if (!$telegram->sendAttachment($attachment)) {
-                            $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
-                        }
-                    }
-                }
-            });
 
             $bot->command('slack', function ($message, ...$params) use ($bot, $telegram_api, $vk) {
                 $receiver = array_shift($params);
