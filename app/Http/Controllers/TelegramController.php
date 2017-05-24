@@ -62,7 +62,7 @@ class TelegramController extends Controller
 
             $bot->on(function($message) use ($bot){
                 $this->p($message, '$message');
-            }, function($message) use ($name){
+            }, function($message){
                 return true;
             });
 //
