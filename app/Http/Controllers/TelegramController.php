@@ -125,13 +125,13 @@ class TelegramController extends Controller
                     $result_data = json_decode($result[0]->message, true);
                     $telegram->setReceiverId(env('TELEGRAM_CHAT_ID'));
                     $attachments = collect($result_data['attachments'])->where('type', 'doc');
+                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), serialize($attachments->toArray()));
                     foreach ($attachments as $data) {
                         $attachment = new Doc($data);
                         if (!$telegram->sendAttachment($attachment)) {
                             $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
                         }
                     }
-                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), serialize($attachments->toArray()));
                 }
             });
 
