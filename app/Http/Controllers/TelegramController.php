@@ -60,8 +60,8 @@ class TelegramController extends Controller
 
             $this->p();
 
-            $bot->on(function($message, $a) use ($bot, $telegram_api){
-                $this->p(serialize($a), 'test');
+            $bot->on(function($message) use ($bot, $telegram_api){
+                $this->p(var_export($message, true), 'test');
             }, function($message){
                 return true;
             });
