@@ -28,35 +28,35 @@ class TelegramController extends Controller
 
             $bot = new \TelegramBot\Api\Client('TELEGRAM_BOT_API');
 
-            $bot->command('answer', function ($message, ...$params) use ($bot, $telegram_api, $vk) {
-                $receiver_id = array_shift($params);
-                $text = implode(' ', $params);
-
-                $m = new Message();
-                $m->setMessage($text);
-                $vk->setReceiverId($receiver_id);
-                if (!$vk->sendMessage($m)) {
-                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
-                }
-            });
-
-            $bot->command('quote', function ($message, ...$params) use ($bot, $telegram_api, $vk) {
-                $receiver_id = array_shift($params);
-                $text = implode(' ', $params);
-
-                $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [$receiver_id]);
-                if (empty($result)) {
-                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка. Сообщение не найдено в базе.');
-                } else {
-                    $result_data = json_decode($result[0]->message);
-                    $m = new Message();
-                    $m->setMessage($text);
-                    $vk->setReceiverId($result_data->user_id);
-                    if (!$vk->sendForwardedMessage($m, $receiver_id)) {
-                        $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
-                    }
-                }
-            });
+//            $bot->command('answer', function ($message, ...$params) use ($bot, $telegram_api, $vk) {
+//                $receiver_id = array_shift($params);
+//                $text = implode(' ', $params);
+//
+//                $m = new Message();
+//                $m->setMessage($text);
+//                $vk->setReceiverId($receiver_id);
+//                if (!$vk->sendMessage($m)) {
+//                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
+//                }
+//            });
+//
+//            $bot->command('quote', function ($message, ...$params) use ($bot, $telegram_api, $vk) {
+//                $receiver_id = array_shift($params);
+//                $text = implode(' ', $params);
+//
+//                $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [$receiver_id]);
+//                if (empty($result)) {
+//                    $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка. Сообщение не найдено в базе.');
+//                } else {
+//                    $result_data = json_decode($result[0]->message);
+//                    $m = new Message();
+//                    $m->setMessage($text);
+//                    $vk->setReceiverId($result_data->user_id);
+//                    if (!$vk->sendForwardedMessage($m, $receiver_id)) {
+//                        $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
+//                    }
+//                }
+//            });
 
             $this->p();
 
