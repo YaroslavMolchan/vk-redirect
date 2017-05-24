@@ -61,8 +61,7 @@ class TelegramController extends Controller
             $this->p();
 
             $bot->on(function($message) use ($bot, $telegram_api){
-                $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), 'Произошла ошибка');
-                $this->p($message, '$message');
+                $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), serialize($message));
             }, function($message){
                 return true;
             });
