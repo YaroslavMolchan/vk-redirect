@@ -61,11 +61,10 @@ class TelegramController extends Controller
 
 //            $this->p();
 
-            $bot->on(function($update) use ($bot){
+            $bot->on(function($update) use ($telegram_api){
                 $callback = $update->getCallbackQuery();
                 $data = $callback->getData();
-                $this->p($data, 'data');
-                $bot->answerCallbackQuery($callback->getId());
+                $telegram_api->answerCallbackQuery($callback->getId());
             });
 //
 //            $attachments = [
