@@ -64,10 +64,11 @@ class TelegramController extends Controller
             $bot->on(function($update) use ($telegram_api){
                 $callback = $update->getCallbackQuery();
                 $data = $callback->getData();
-                $telegram_api->sendMessage(env('TELEGRAM_CHAT_ID'), serialize($update));
                 $telegram_api->answerCallbackQuery($callback->getId());
+            }, function($update){
+                return true;
             });
-//
+
 //            $attachments = [
 //                'audio',
 //                'doc',
