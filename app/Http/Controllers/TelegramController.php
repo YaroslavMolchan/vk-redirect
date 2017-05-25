@@ -11,6 +11,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use TelegramBot\Api\BotApi;
 use TelegramBot\Api\Exception;
+use TelegramBot\Api\Types\Update;
 use VK\VK;
 
 class TelegramController extends Controller
@@ -58,12 +59,13 @@ class TelegramController extends Controller
 //                }
 //            });
 
-            $this->p();
+//            $this->p();
 
-            $bot->on(function($message) use ($bot, $telegram_api){
-                $this->p(var_export($message, true), 'test');
-            }, function($message){
-                return true;
+            $bot->on(function($update) use ($bot){
+                $callback = $update->getCallbackQuery();
+                $data = $callback->getData();
+                $this->p($data, 'data');
+                $bot->answerCallbackQuery($callback->getId());
             });
 //
 //            $attachments = [
