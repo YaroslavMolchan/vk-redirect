@@ -61,6 +61,8 @@ class TelegramController extends Controller
 
             $bot->on(function($update) use ($telegram){
                 $callback = $update->getCallbackQuery();
+                $telegram->getSender()->answerCallbackQuery($callback->getId());
+
                 $callback_data = json_decode($callback->getData(), true);
                 $type = $callback_data['type'];
 
@@ -78,6 +80,7 @@ class TelegramController extends Controller
                     }
                     else {
                         $attachments = collect($result_data['attachments'])->where('type', $type);
+                        $this->p($attachments, $type);
                         foreach ($attachments as $data) {
                             $class = '\App\Helpers\Vk\Messages\Attachments\\' . ucfirst($type);
                             $attachment = new $class($data);
@@ -87,8 +90,6 @@ class TelegramController extends Controller
                         }
                     }
                 }
-
-                $telegram->getSender()->answerCallbackQuery($callback->getId());
             }, function($update){
                 return true;
             });
