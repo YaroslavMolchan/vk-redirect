@@ -122,7 +122,7 @@ class Message extends \App\Helpers\Message
         $attachments_keyboard = collect([]);
         /** @var AttachmentInterface $attachment */
         foreach ($this->attachments as $attachment) {
-            if ($attachments_keyboard->where('type', $attachment->getType())->count()) {
+            if ($attachments_keyboard->where('text', $attachment->getIcon())->count()) {
                 continue;
             }
             $current = ['callback_data' => json_encode(['type' => $attachment->getType(), 'id' => $message_id]), 'text' => $attachment->getIcon()];
