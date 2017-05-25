@@ -61,7 +61,7 @@ class TelegramController extends Controller
 
             $bot->on(function($update) use ($telegram){
                 $callback = $update->getCallbackQuery();
-                $callback_data = json_decode($callback->getData());
+                $callback_data = json_decode($callback->getData(), true);
                 $type = $callback_data['type'];
 
                 $result = app('db')->select("SELECT `message` FROM `messages` WHERE `id` = ?", [$callback_data['id']]);
