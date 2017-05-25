@@ -80,7 +80,7 @@ class TelegramController extends Controller
                     }
                     else {
                         $attachments = collect($result_data['attachments'])->where('type', $type);
-                        $this->p($attachments, $type);
+                        $telegram->getSender()->sendMessage(env('TELEGRAM_CHAT_ID'), serialize($attachments));
                         foreach ($attachments as $data) {
                             $class = '\App\Helpers\Vk\Messages\Attachments\\' . ucfirst($type);
                             $attachment = new $class($data);
