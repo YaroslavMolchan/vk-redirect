@@ -43,4 +43,13 @@ class Helper implements SenderInterface
 
         return call_user_func_array([$this->sender, $attachment->getMethod()], $options);
     }
+
+    /**
+     * @author MY
+     * @return BotApi
+     */
+    public function getSender(): BotApi
+    {
+        return $this->sender;
+    }
 }

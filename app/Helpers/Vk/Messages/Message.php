@@ -113,21 +113,24 @@ class Message extends \App\Helpers\Message
 
         $keyboard = [
             [
-                ['callback_data' => '123', 'text' => 'Ответить'],
                 ['switch_inline_query_current_chat' => '/answer ' . $user_id . ' ', 'text' => 'Ответить'],
                 ['switch_inline_query_current_chat' => '/quote ' . $message_id . ' ', 'text' => 'Цитировать'],
                 ['url' => 'https://vk.com/im?sel=' . $user_id, 'text' => 'Диалог']
             ]
         ];
 
-        $attachments_keyboard = [];
+        $attachments_keyboard = collect([]);
         /** @var AttachmentInterface $attachment */
         foreach ($this->attachments as $attachment) {
-            array_push($attachments_keyboard, ['switch_inline_query_current_chat' => '/'.$attachment->getType().' ' . $message_id, 'text' => $attachment->getIcon()]);
+            if ($attachments_keyboard->where('type', $attachment->getType())->count()) {
+                continue;
+            }
+            $current = ['callback_data' => json_encode(['type' => $attachment->getType(), 'id' => $message_id]), 'text' => $attachment->getIcon()];
+            $attachments_keyboard->push($current);
         }
 
-        if (!empty($attachments_keyboard)) {
-            array_unshift($keyboard, $attachments_keyboard);
+        if ($attachments_keyboard->count() > 0) {
+            array_unshift($keyboard, $attachments_keyboard->toArray());
         }
 
         return new InlineKeyboardMarkup($keyboard);
